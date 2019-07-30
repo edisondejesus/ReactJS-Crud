@@ -11,13 +11,6 @@ class Form_actualizar extends React.Component{
 
 
 
-	constructor(props){
-		super(props);
-		this.state={nombre:'David',apellido:'Ortiz',id:1}
-		this.handleChange = this.handleChange.bind(this);
-
-	}
-
 	regresar(){
 
 			window.location='/'
@@ -33,25 +26,11 @@ class Form_actualizar extends React.Component{
 
 		return  {nombre:nomb,apellido:ape,id:id_r};
 	}
-	
-	handleChange(e) {
-
-		if(e.target.id=="nombre"){
-    	   
-    	   this.setState({ nombre: e.target.value });
-    	
-    	}else{
-
-    	    this.setState({ apellido: e.target.value });
-
-    	}
-    
-    }
 
 
     componentDidMount(){
     	const { match: { params } } = this.props;
-		this.cargar_usuario(params.id);
+
     	//alert(params.id)
     }
 
@@ -59,10 +38,6 @@ class Form_actualizar extends React.Component{
 
    		axios.get(`http://localhost:8000/api/mostrar_persona/${id_usuario}`).then(resp=>{
    						
-   					this.setState({nombre:resp.data.nombre,
-   						           apellido:resp.data.apellido,
-   						           id:resp.data.id
-   						       });		
 
    		}).catch(error=>{
 
@@ -75,8 +50,9 @@ class Form_actualizar extends React.Component{
 
 	actualizar_data(){
 
+			const data =this.getDataForm();
 
-			axios.get(`http://localhost:8000/api/actualizar/${this.state.nombre}/${this.state.apellido}/${this.state.id}`).then(data=>{
+			axios.get(`http://localhost:8000/api/actualizar/${data.nombre}/${data.apellido}/${data.id}`).then(data=>{
 
 					alert('datos actualizado conexito');
 					this.regresar();
@@ -96,10 +72,10 @@ class Form_actualizar extends React.Component{
 				<div className='col-md-12'><hr/>
 				<h3 className='text-center'>Actualizar Informacion</h3>
 					<strong>nombre</strong><br/>
-					<input type='text' value={this.state.nombre} id="nombre" onChange={this.handleChange} defaultValue={this.state.nombre} className="form-control" /><br/>
+					<input type='text' value="" id="nombre" className="form-control" /><br/>
 					<strong>apellido</strong><br/>
-					<input type='text' value={this.state.apellido} id="apellido" onChange={this.handleChange} defaultValue={this.state.apellido} className="form-control" /><br/>
-					<input type='hidden'  value={this.state.id} id="id_registro" />
+					<input type='text' value="" id="apellido" className="form-control" /><br/>
+					<input type='hidden'  value="" id="id_registro" />
 
 					<button onClick={(e)=>this.actualizar_data()} className="btn btn-primary">Actualizar</button>
 				</div>

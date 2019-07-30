@@ -29,3 +29,4 @@ Route::get('/api/mostrar_persona/{id}','Persona@show');
 
 Route::get('/api/delete/{id}','Persona@destroy');
 Route::get('/api/buscar_persona/{nombre}','Persona@buscar_persona');
+Route::get('/api/actualizar','Persona@update');

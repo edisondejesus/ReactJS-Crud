@@ -1,8 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import axios from 'axios'
-import './css/bootstrap.css'
-import Form_actualizar from './Actualizar'
+import ReactDOM from 'react-dom';
+import axios from 'axios';
+import './css/bootstrap.css';
+import Form_actualizar from './Actualizar';
 import { BrowserRouter, Route} from "react-router-dom";
 
 
@@ -76,8 +76,7 @@ class Crud_persona extends React.Component{
 
   actualizar(id){
 
-      this.id_update = id;
-
+      window.location=`/actualizar/${id}`;
   }
 
   componentDidMount(){
@@ -154,7 +153,7 @@ class Crud_persona extends React.Component{
                      <tr>
                        <td>{data.nombre}</td>
                        <td>{data.apellido}</td>
-                        <td><a href="/actualizar/{data.id}"><button className="btn-success">Actualizar</button></a> </td>
+                        <td><button className="btn-success" onClick={(e)=>this.actualizar(data.id)}>Actualizar</button> </td>
                        <td><button className="btn-danger" onClick={(e)=>this.eliminar(data.id)}>Eliminar</button></td>
                      </tr>
 

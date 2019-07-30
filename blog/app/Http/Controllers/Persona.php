@@ -84,12 +84,12 @@ class Persona extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $pers)
+    public function update($nombre,$apellido,$id)
     {
                
-            $persona = App\Persona::find($pers->id);
-            $persona->nombre = $pers->nombre;
-            $persona->apellido = $pers->apellido;
+            $persona = App\Persona::find($id);
+            $persona->nombre = $nombre;
+            $persona->apellido = $apellido;
             $persona->save();
 
     }
