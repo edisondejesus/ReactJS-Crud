@@ -2,7 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
 import './css/bootstrap.css'
-import  Formulario_actualizar from './Actualizar'
+import Form_actualizar from './Actualizar'
+import { BrowserRouter, Route} from "react-router-dom";
+
 
 
 
@@ -11,28 +13,12 @@ class Crud_persona extends React.Component{
   constructor(props){
     super(props);
     this.state = {personas:[{nombre:'Edison De jesus'}]};
-    this.personas = [{nombre:'Edison',apellido:'De jesus'}];
 
 
   }
 
-  guardar_persona(){
 
-      var nomb = document.getElementById('nombre').value;
-      var aped = document.getElementById('apellido').value;
-
-         axios.get(`http://localhost:8000/api/guardar_personas/${nomb}/${aped}`)
-          .then(function (response) {
-            console.log(response);
-             this.cargar_personas();
-
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-
-  }
-
+  
   cargar_personas(){
 
      axios.get(`http://localhost:8000/api/personas`)
@@ -50,6 +36,25 @@ class Crud_persona extends React.Component{
 
 
   }
+
+
+  guardar_persona=()=>{
+
+      var nomb = document.getElementById('nombre').value;
+      var aped = document.getElementById('apellido').value;
+
+         axios.get(`http://localhost:8000/api/guardar_personas/${nomb}/${aped}`)
+          .then(function (response) {
+            console.log(response);
+             this.cargar_personas();
+
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+  }
+
 
   eliminar(id){
 
@@ -71,7 +76,7 @@ class Crud_persona extends React.Component{
 
   actualizar(id){
 
-      alert(id);
+      this.id_update = id;
 
   }
 
@@ -80,7 +85,9 @@ class Crud_persona extends React.Component{
       this.cargar_personas();
   }
 
-  buscar_personas(){
+
+
+  buscar_personas =()=>{
 
     var buscar = document.getElementById('buscar').value;
 
@@ -88,11 +95,10 @@ class Crud_persona extends React.Component{
 
           const person = res.data;
           console.log(person);
-          this.setState((state)=>{
+            this.setState({
+                personas:person
 
-            return {personas:state.personas.concat(person)}
-
-          });
+           });
 
       }).catch(error=>{
 
@@ -108,8 +114,18 @@ class Crud_persona extends React.Component{
     alert("hola");
   }
 
+  /*
+  actualizar_data(nom,ap,id){
+    
+        ReactDOM.render(<Form_actualizar nombre={nom} apellido={ap} id_registro={id} />
+          ,document.getElementById('root'));
+    
+  }
+  */
+
 
   render(){
+
 
     return <div>
             <div>
@@ -118,12 +134,14 @@ class Crud_persona extends React.Component{
               <input type='text' id='nombre' />
               <strong>Apellido</strong>
               <input type='text' id='apellido'  />
-              <button onClick={this.guardar_persona}>Guradar</button>
+              <button onClick={this.guardar_persona}>Guradar</button><br/>
                <strong>Buscar usuario</strong>
-                <input type="text" className="form-control" id="buscar" placeholder="Escriba el nombre de la persona" onKeyUp={this.buscar_personas} />
-              </div>
+                <input type="text" className="form-control" 
+                id="buscar" placeholder="Escriba el nombre de la persona" 
+                    onKeyUp={()=>this.buscar_personas()} />
+              </div><br/>
                 
-              <table border='1' className='table'>
+             <table border='1' className='table'>
               <tr>
                   <td>Nombre</td>
                   <td>Apellido</td>
@@ -136,7 +154,7 @@ class Crud_persona extends React.Component{
                      <tr>
                        <td>{data.nombre}</td>
                        <td>{data.apellido}</td>
-                        <td><button className="btn-success" onClick={(e)=>this.eliminar(data.id)}>Actualizar</button></td>
+                        <td><a href="/actualizar/{data.id}"><button className="btn-success">Actualizar</button></a> </td>
                        <td><button className="btn-danger" onClick={(e)=>this.eliminar(data.id)}>Eliminar</button></td>
                      </tr>
 
@@ -145,10 +163,17 @@ class Crud_persona extends React.Component{
 
               }
               </table>
+              <BrowserRouter>
+                  <Route path="/actualizar/:id" component={Form_actualizar} />
+              </BrowserRouter>
+          
           </div>
   }
 
 
 }
+
+
+
 
 ReactDOM.render(<Crud_persona/>,document.getElementById('root'));
