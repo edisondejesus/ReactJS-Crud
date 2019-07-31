@@ -38,15 +38,17 @@ class Crud_persona extends React.Component{
   }
 
 
-  guardar_persona=()=>{
+  guardar_persona(){
 
       var nomb = document.getElementById('nombre').value;
       var aped = document.getElementById('apellido').value;
 
+                    this.cargar_personas(); 
+
+
          axios.get(`http://localhost:8000/api/guardar_personas/${nomb}/${aped}`)
           .then(function (response) {
-            console.log(response);
-             this.cargar_personas();
+         
 
           })
           .catch(function (error) {
@@ -133,7 +135,7 @@ class Crud_persona extends React.Component{
               <input type='text' id='nombre' />
               <strong>Apellido</strong>
               <input type='text' id='apellido'  />
-              <button onClick={this.guardar_persona}>Guradar</button><br/>
+              <button onClick={(e)=>this.guardar_persona()}>Guardar</button><br/>
                <strong>Buscar usuario</strong>
                 <input type="text" className="form-control" 
                 id="buscar" placeholder="Escriba el nombre de la persona" 
